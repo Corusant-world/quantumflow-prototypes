@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantumflow-prototypes"
+version = "0.1.0"
+description = "GPU-accelerated prototypes ecosystem achieving 95%+ GPU utilization on NVIDIA H100"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Tech Eldorado"}
+]
+keywords = ["nvidia", "cuda", "gpu", "quantum", "prototypes", "benchmarks"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/Corusant-world/quantumflow-prototypes"
+Documentation = "https://github.com/Corusant-world/quantumflow-prototypes/blob/main/README.md"
+Repository = "https://github.com/Corusant-world/quantumflow-prototypes"
+
+[project.scripts]
+quantumflow-smoke = "quantumflow.cli:smoke"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["quantumflow*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md"]
+

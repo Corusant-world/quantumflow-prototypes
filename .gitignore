@@ -1,0 +1,16 @@
+node_modules/
+.env
+dist/
+build/
+*.log
+.DS_Store
+.vscode/
+.idea/
+drizzle/
+
+# Runtime artifacts from prototypes ecosystem smoke test
+prototypes/ecosystem_results/latest.json
+
+# Do not commit agent/runner append-only logs inside prototypes
+prototypes/**/benchmarks/results.json
+

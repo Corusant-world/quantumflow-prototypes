@@ -1,0 +1,31 @@
+# Dockerfile.gpu-cu12-cuquantum — NVIDIA GPU (CUDA 12) + cuQuantum
+FROM nvidia/cuda:12.0.0-runtime-ubuntu22.04
+
+# Install Python 3.10
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.10 \
+    python3.10-dev \
+    python3-pip \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create symlink for python
+RUN ln -s /usr/bin/python3.10 /usr/bin/python
+
+WORKDIR /app
+
+# Copy prototypes and requirements
+COPY prototypes/ ./prototypes/
+COPY requirements.gpu-cu12-cuquantum.txt ./prototypes/requirements.gpu-cu12-cuquantum.txt
+
+# Install Python dependencies (including cuQuantum from NGC)
+RUN python -m pip install --upgrade pip && \
+    python -m pip install -r prototypes/requirements.gpu-cu12-cuquantum.txt
+
+# Verify cuQuantum installation
+RUN python -c "from cuquantum import cutensornet, custatevec; print('cuQuantum OK')" || echo "Warning: cuQuantum check failed"
+
+# Set entrypoint to ecosystem smoke test
+ENTRYPOINT ["python", "prototypes/ecosystem_smoke.py"]
+CMD []
+

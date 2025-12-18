@@ -1,0 +1,22 @@
+# Dockerfile.cpu — CPU-only environment for prototypes
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy prototypes and requirements
+COPY prototypes/ ./prototypes/
+COPY requirements.cpu.txt ./prototypes/requirements.cpu.txt
+
+# Install Python dependencies
+RUN python -m pip install --upgrade pip && \
+    python -m pip install -r prototypes/requirements.cpu.txt
+
+# Set entrypoint to ecosystem smoke test
+ENTRYPOINT ["python", "prototypes/ecosystem_smoke.py"]
+CMD []
+
