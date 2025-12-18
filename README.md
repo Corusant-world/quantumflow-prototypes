@@ -6,7 +6,6 @@ Three GPU-first prototypes designed to run together in one environment, demonstr
 
 ![CI](https://github.com/Corusant-world/quantumflow-prototypes/actions/workflows/ci.yml/badge.svg)
 
-![Demo](assets/demo.svg)
 
 ## Key Results (tested on NVIDIA H100 PCIe)
 
@@ -47,7 +46,7 @@ DEVICE=cuda python prototypes/ecosystem_smoke.py
 
 ## Docker
 
-Pre-built images available on GHCR (coming soon). Build locally:
+Build Docker images locally:
 
 ### CPU
 
@@ -121,11 +120,6 @@ These prototypes solve a critical gap: **reproducible GPU validation with ecosys
 - Public APIs: `docs/API.md`
 - NVIDIA integration notes: `docs/NVIDIA_INTEGRATION.md`
 
-## Orchestration stack (optional)
-
-This repo also contains an agent/orchestration system (`backend/`, `frontend/`) used to run multi-agent workflows.
-If you only care about the NVIDIA-facing prototypes, start in `prototypes/`.
-
 ## Visuals
 
 ![Architecture](assets/architecture.svg)
@@ -154,23 +148,13 @@ This repository represents **the beginning of a quantum-accelerated tools ecosys
 
 **Active development:** See `CHANGELOG.md` for regular updates. This is a living ecosystem, not a one-time project. We're building a company around reproducible GPU development tools.
 
-## Roadmap
-
-- [x] Three GPU-first prototypes with reproducible benchmarks
-- [x] Ecosystem compatibility proof (one environment, zero conflicts)
-- [x] cuQuantum integration demonstration
-- [ ] Additional prototypes (quantum algorithms, optimization frameworks)
-- [ ] Production deployment tooling
-- [ ] Multi-GPU orchestration
-- [ ] Integration with NVIDIA NGC containers
-
 ## Citation
 
 If you use this in research, please cite:
 
 ```bibtex
 @software{quantumflow2025,
-  author = {Tech Eldorado},
+  author = {Corusant-world},
   title = {QuantumFlow: GPU-Accelerated Prototypes Ecosystem},
   year = {2025},
   url = {https://github.com/Corusant-world/quantumflow-prototypes},

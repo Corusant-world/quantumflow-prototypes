@@ -93,7 +93,7 @@ python prototypes/team3_innovation/benchmarks/run_benchmarks.py
 
 ```bibtex
 @software{quantumflow2025,
-  author = {Tech Eldorado},
+  author = {Corusant-world},
   title = {QuantumFlow: GPU-Accelerated Prototypes Ecosystem},
   year = {2025},
   url = {https://github.com/<ORG>/<REPO>}
