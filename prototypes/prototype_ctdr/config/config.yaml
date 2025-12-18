@@ -1,0 +1,15 @@
+# CTDR Configuration
+
+kernel_version: "DPX_LCP_Kernel_v1.0"
+prompt_version: "TRIDENT_PROMPTS_v1.0"
+
+h100_config:
+  kv_cache_size: 1000
+  cluster_size: 16
+  launch_params:
+    block_size: 256
+    grid_size: 1024
+
+benchmark_version: "latest.json_v1.0"
+
+

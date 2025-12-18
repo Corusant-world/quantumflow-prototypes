@@ -1,0 +1,88 @@
+{
+  "status": "success",
+  "device": "NVIDIA H100 PCIe",
+  "deps": {
+    "python": "3.10.12",
+    "platform": "Linux-6.8.0-87-generic-x86_64-with-glibc2.35",
+    "torch_version": "2.6.0+cu124",
+    "torch_cuda_version": "12.4",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA H100 PCIe",
+    "cuda_capability": [
+      9,
+      0
+    ],
+    "cupy": {
+      "available": true,
+      "version": "13.6.0"
+    },
+    "cuquantum": {
+      "available": true,
+      "version": "25.03.0.post0"
+    }
+  },
+  "nvidia_smi_before": {
+    "ok": true,
+    "raw": "NVIDIA H100 PCIe, 0, 0, 4, 81559, 57.05"
+  },
+  "benchmarks": {
+    "vram_reserve": {
+      "enabled": false
+    },
+    "quantum_neural_process": {
+      "avg_time_ms": 0.0851,
+      "iters": 93985,
+      "last_metrics": {
+        "time_sec": 7.622399789397605e-05,
+        "batch": 256.0,
+        "in_dim": 512.0,
+        "qubits": 8.0
+      },
+      "out_mean": 0.4973903298377991,
+      "out_shape": [
+        256,
+        32
+      ],
+      "duration_s_target": 8
+    },
+    "tflops_proxy": {
+      "device": "cuda",
+      "tflops": 521.9879199365635,
+      "dtype": "bf16",
+      "n": 8192.0
+    },
+    "cuquantum_path": {
+      "used": true,
+      "api": "cutensornet.contract",
+      "expr": "ij,jk->ik",
+      "dim": 4096,
+      "iters": 316,
+      "wall_time_s": 8.011581382001168,
+      "tflops_est": 5.4209908414240795,
+      "out_norm": 8389313.0,
+      "setup_overhead_s": 0.32273691600130405
+    },
+    "gpu_soak_matmul": {
+      "duration_s_target": 164,
+      "matrix_n": 16384,
+      "dtype": "bfloat16",
+      "iters": 8882,
+      "elapsed_ms": 174011.4375,
+      "tflops_est": 448.9756497945801
+    }
+  },
+  "cuquantum_used": true,
+  "bench_seconds": 180,
+  "bench_reserve_gb": 0,
+  "nvml": {
+    "samples": 381,
+    "gpu_util_avg": 95.4724409448819,
+    "gpu_util_max": 100,
+    "mem_used_mb_max": 4531,
+    "nvml_ok": true
+  },
+  "nvidia_smi_after": {
+    "ok": true,
+    "raw": "NVIDIA H100 PCIe, 0, 0, 3968, 81559, 267.61"
+  }
+}

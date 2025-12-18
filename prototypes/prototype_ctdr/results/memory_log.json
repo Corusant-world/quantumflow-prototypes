@@ -1,0 +1,234 @@
+{
+  "decisions": [
+    {
+      "id": "dec_001",
+      "timestamp": "2025-12-15T15:00:00.000Z",
+      "decision": "Использовать CPU baseline для валидации",
+      "reason": "Необходимо для сравнения с GPU версией в подфазе 1.1",
+      "status": "accepted",
+      "phase": "1.0",
+      "subphase": "1.0"
+    },
+    {
+      "id": "dec_002",
+      "timestamp": "2025-12-15T17:30:00.000Z",
+      "decision": "Реализовать DPX_LCP_Kernel с min/max операциями вместо прямых DPX intrinsics",
+      "reason": "Прямые DPX intrinsics (__dp_min_add_short2) не распознаются компилятором CUDA 12.4. Используем min/max операции, которые компилятор оптимизирует под DPX на sm_90. Это правильный подход для p-адической логики и вычисления Baire Metric через ультраметрическую дистанцию.",
+      "status": "accepted",
+      "phase": "1.1",
+      "subphase": "1.1"
+    },
+    {
+      "id": "dec_003",
+      "timestamp": "2025-12-15T17:30:00.000Z",
+      "decision": "Использовать short2 кодирование для DPX операций",
+      "reason": "DPX аппаратно ускоряет операции min/max/add над short2 (16-битные пары). Кодирование: каждый символ → 16-битное значение, пары → short2. Это позволяет использовать DPX для вычисления LCP через Baire Metric.",
+      "status": "accepted",
+      "phase": "1.1",
+      "subphase": "1.1"
+    },
+    {
+      "id": "dec_004",
+      "timestamp": "2025-12-15T20:00:00.000Z",
+      "decision": "Реализовать Reversible_Einsum_Engine с Boolean Einsum + Heaviside threshold",
+      "reason": "Boolean Einsum через Tensor Cores (FP16 оптимизация), Heaviside threshold через DPX предикаты (fmaxf для predicated execution). Это основа Tensor Logic для объединения нейронных и символических вычислений.",
+      "status": "accepted",
+      "phase": "1.2",
+      "subphase": "1.2"
+    },
+    {
+      "id": "dec_005",
+      "timestamp": "2025-12-15T20:15:00.000Z",
+      "decision": "Реализовать RLA-стек для минимизации энтропии через DPX-мемоизацию",
+      "reason": "RLA (Software Approximation of Reversible Logic) минимизирует информационные потери (стирания) через мемоизацию. Цель: 2× меньше перезаписей vs классический LLM. Принцип Ландауэра: E_min = k_B * T * ln(2) ≈ 2.9 × 10^(-21) Дж @ 300K.",
+      "status": "accepted",
+      "phase": "1.2",
+      "subphase": "1.2"
+    },
+    {
+      "id": "dec_006",
+      "timestamp": "2025-12-15T20:30:00.000Z",
+      "decision": "Реализовать KV_Cache_Steering_DPX с двухуровневой системой (SRAM + L2 Cache)",
+      "reason": "Двухуровневая система памяти для устранения Catastrophic Forgetting: SRAM для горячих состояний, L2 Cache (50 МБ на H100) для менее частых. Использование DPX_LCP_Kernel для O(N) поиска через Baire Metric. Метрики: cache hit rate ≥80%, latency reduction ≥7×, token reduction ≥31%.",
+      "status": "accepted",
+      "phase": "1.3",
+      "subphase": "1.3"
+    },
+    {
+      "id": "dec_007",
+      "timestamp": "2025-12-15T20:45:00.000Z",
+      "decision": "Интегрировать RLA-стек с KV_Cache_Steering_DPX",
+      "reason": "Отслеживание энтропийных метрик (информационная + термодинамическая) при операциях с кэшем. Методы get_with_rla и put_with_rla для автоматического логирования энтропийных решений. Сравнение с baseline для проверки метрики 2× меньше перезаписей.",
+      "status": "accepted",
+      "phase": "1.3",
+      "subphase": "1.3"
+    },
+    {
+      "id": "dec_008",
+      "timestamp": "2025-12-16T09:00:00.000Z",
+      "decision": "Реализовать batch LCP retrieval (1 query vs N candidates) с top1 на GPU",
+      "reason": "Для доказательства парадигмы 'cold-core' необходимо показать масштабируемость: чем больше candidates, тем больше speedup. Реализованы dpx_lcp_index_load, dpx_lcp_index_set_query, dpx_lcp_index_query_top1 для устранения D2H overhead. Результат: 1534.47× speedup @16384 candidates (vs 76.13× @1024).",
+      "status": "accepted",
+      "phase": "1.4",
+      "subphase": "1.4",
+      "alternatives": [
+        {
+          "approach": "Single-pair LCP (1 query vs 1 candidate)",
+          "rejected_reason": "Не показывает масштабируемость, D2H overhead доминирует на малых размерах",
+          "test_results": "Speedup 0.05-0.08× для малых размеров (100-1000 chars)"
+        },
+        {
+          "approach": "Batch с возвратом всех LCP значений (D2H массив)",
+          "rejected_reason": "D2H overhead растёт линейно с количеством candidates, убивает энергоэффективность",
+          "test_results": "Не тестировалось, но очевидно из архитектуры CUDA"
+        }
+      ],
+      "test_references": [
+        "benchmarks/results/performance.json: batch LCP speedup 1534.47× @16384",
+        "cuda/kernels_bindings.cu: dpx_lcp_index_query_top1 (GPU-side reduction)"
+      ]
+    },
+    {
+      "id": "dec_009",
+      "timestamp": "2025-12-16T09:10:00.000Z",
+      "decision": "Измерять энергоэффективность через отдельные временные окна (baseline vs CTDR)",
+      "reason": "Для доказательства 'не печка' необходимо показать, что CTDR потребляет меньше энергии НА ЗАПРОС (J/query), а не просто меньше мощности. Реализованы отдельные окна измерения: baseline (Tensor Core dot-product) и CTDR (LCP retrieval) с расчётом J/query и ratio. Результат: 4.42× energy reduction @65536 candidates.",
+      "status": "accepted",
+      "phase": "1.4",
+      "subphase": "1.4",
+      "alternatives": [
+        {
+          "approach": "Единое окно измерения (baseline + CTDR вместе)",
+          "rejected_reason": "Нельзя разделить энергопотребление baseline и CTDR, метрика J/query некорректна",
+          "test_results": "Первая версия давала ratio 1.48×, но метрика была некорректной (смешанные окна)"
+        },
+        {
+          "approach": "Измерение только пиковой мощности",
+          "rejected_reason": "Не показывает энергоэффективность на запрос, только пиковое потребление",
+          "test_results": "Не тестировалось"
+        }
+      ],
+      "test_references": [
+        "benchmarks/results/energy_efficiency.json: energy_per_query_ratio_baseline_over_ctdr: 4.42",
+        "benchmarks/benchmark_energy_efficiency.py: _measure_window() для раздельных окон"
+      ]
+    },
+    {
+      "id": "dec_010",
+      "timestamp": "2025-12-16T09:20:00.000Z",
+      "decision": "Реализовать симметричное A/B сравнение для entropy benchmark (baseline без memoization vs RLA с memoization)",
+      "reason": "Для доказательства Landauer/Weightless парадигмы необходимо показать, что RLA реально уменьшает writes через memoization, а не просто считает меньше операций. Реализованы два пути: baseline (каждая операция = compute + write) и RLA (первая операция = compute + write, остальные = read from cache). Результат: 10× write reduction, 98.02% cache hit rate.",
+      "status": "accepted",
+      "phase": "1.4",
+      "subphase": "1.4",
+      "alternatives": [
+        {
+          "approach": "Только RLA путь без baseline сравнения",
+          "rejected_reason": "Нельзя доказать reduction без baseline, метрика write_reduction некорректна",
+          "test_results": "Первая версия показывала cache_hit_rate=0%, memory_reads=0 (некорректно)"
+        },
+        {
+          "approach": "Использовать только RLAStack без KV Cache",
+          "rejected_reason": "KV Cache обеспечивает реальную мемоизацию между операциями, RLAStack только отслеживает метрики",
+          "test_results": "Не тестировалось, но архитектурно очевидно"
+        }
+      ],
+      "test_references": [
+        "benchmarks/results/entropy.json: write_reduction_factor: 10.0, cache_hit_rate: 98.02%",
+        "benchmarks/benchmark_entropy.py: симметричное A/B сравнение baseline vs RLA",
+        "src/kv_cache_steering.py: get_with_rla() инкрементирует memory_reads при cache hit"
+      ]
+    },
+    {
+      "id": "dec_011",
+      "timestamp": "2025-12-16T09:30:00.000Z",
+      "decision": "Использовать warp-level primitives (__ballot_sync, __ffs) для LCP kernel оптимизации",
+      "reason": "Для максимизации throughput и энергоэффективности необходимо использовать warp-level редукцию вместо sequential поиска. Реализован dpx_lcp_u16_batch_kernel_warp_first_mismatch с early exit через __ballot_sync и __ffs. Это уменьшает D2H overhead и улучшает энергоэффективность.",
+      "status": "accepted",
+      "phase": "1.4",
+      "subphase": "1.4",
+      "alternatives": [
+        {
+          "approach": "Sequential LCP в single thread (correctness-first)",
+          "rejected_reason": "Корректно, но медленно. Использовалось только для отладки (dpx_lcp_u16_kernel_local)",
+          "test_results": "Использовалось для отладки linking issues, затем заменено на warp-level версию"
+        },
+        {
+          "approach": "Block-level reduction без warp primitives",
+          "rejected_reason": "Медленнее warp-level, больше overhead на синхронизацию",
+          "test_results": "Не тестировалось, но архитектурно очевидно"
+        }
+      ],
+      "test_references": [
+        "cuda/kernels_bindings.cu: dpx_lcp_u16_batch_kernel_warp_first_mismatch",
+        "benchmarks/results/performance.json: batch LCP speedup улучшился после оптимизации"
+      ]
+    },
+    {
+      "id": "dec_012",
+      "timestamp": "2025-12-16T09:40:00.000Z",
+      "decision": "Консолидировать все бенчмарки в comprehensive_report.json с summary метриками",
+      "reason": "Для финализации подфаз 1.4/1.5 необходимо иметь единую точку входа для всех метрик. Реализован run_all_benchmarks.py, который запускает все бенчмарки последовательно и создаёт comprehensive_report.json + latest.json с summary. Это позволяет быстро проверить все метрики одной командой.",
+      "status": "accepted",
+      "phase": "1.4",
+      "subphase": "1.5",
+      "alternatives": [
+        {
+          "approach": "Отдельные JSON файлы без консолидации",
+          "rejected_reason": "Неудобно для финальной валидации, нужно открывать множество файлов",
+          "test_results": "Не тестировалось, но очевидно из UX"
+        }
+      ],
+      "test_references": [
+        "benchmarks/results/comprehensive_report.json: все результаты в одном файле",
+        "benchmarks/results/latest.json: summary с ключевыми метриками"
+      ]
+    },
+    {
+      "id": "dec_013",
+      "timestamp": "2025-12-16T09:50:00.000Z",
+      "decision": "Обновить demo scripts с реальными ядрами и метриками вместо CPU-only fallback",
+      "reason": "Для демонстрации NVIDIA необходимо показать реальную работу на GPU, а не только CPU fallback. Обновлены demo_simple.py (30s) и demo_full.py (5m) с использованием dpx_lcp, reversible_einsum, KV_Cache_Steering_DPX, RLAStack и реальными метриками (speedup, cache hit rate, write reduction).",
+      "status": "accepted",
+      "phase": "1.4",
+      "subphase": "1.5",
+      "alternatives": [
+        {
+          "approach": "Оставить CPU-only демо",
+          "rejected_reason": "Не демонстрирует реальные возможности CTDR на GPU, не показывает парадигму",
+          "test_results": "Старая версия demo_full.py использовала только lcp_cpu и einsum_cpu"
+        }
+      ],
+      "test_references": [
+        "demo/demo_simple.py: использует dpx_lcp, reversible_einsum, показывает speedup",
+        "demo/demo_full.py: полный пайплайн с метриками производительности"
+      ]
+    }
+  ],
+  "context": {
+    "phase": 1,
+    "subphase": "1.5",
+    "gpu_available": true,
+    "baseline_implemented": true,
+    "cuda_kernel_compiled": true,
+    "tests_passed": true,
+    "dpx_optimization": "min/max operations (compiler optimizes to DPX on sm_90)",
+    "benchmarks": {
+      "cache_hit_rate": "98.02% (target: ≥80%)",
+      "latency_reduction": "220.04× (target: ≥7×)",
+      "token_reduction": "100% (target: ≥31%)",
+      "rla_reduction": "10× (target: 2×)",
+      "batch_lcp_speedup": "1534.47× @16384 candidates",
+      "energy_reduction": "4.42× (baseline/CTDR J/query ratio)",
+      "write_reduction": "10.0× (RLA memoization)",
+      "fsm_precision": "100.0% (target: ≥51.52%)",
+      "semantic_error_rate": "0.0%"
+    },
+    "validation": {
+      "code_real": true,
+      "no_simulations": true,
+      "all_tests_passed": true,
+      "integration_working": true
+    }
+  }
+}

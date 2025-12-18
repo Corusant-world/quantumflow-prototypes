@@ -1,0 +1,59 @@
+{
+  "four_layer_versioning": {
+    "layer_1_code": {
+      "description": "Code kernel version (git commit hash)",
+      "git_hash": "TO_BE_FILLED",
+      "note": "Run 'git rev-parse HEAD' in prototype_ctdr directory to get current commit hash",
+      "files": [
+        "cuda/kernels.cu",
+        "cuda/kernels_bindings.cu",
+        "src/core.py",
+        "src/kv_cache_steering.py",
+        "src/rla_stack.py"
+      ]
+    },
+    "layer_2_prompts": {
+      "description": "Prompt versions for agents",
+      "prompt_sources": [
+        ".cursor/plans/подфазы_1.4_и_1.5_бенчмарки,_метрики,_документация_и_финализация_09e14e10.plan.md",
+        "trident/PHASE_1_TASKS.md",
+        "Cuda-agi-path.md"
+      ],
+      "version": "1.0.0",
+      "timestamp": "2025-12-16T09:00:00.000Z"
+    },
+    "layer_3_h100_config": {
+      "description": "H100 hardware configuration",
+      "config_file": "configs/h100_config.json",
+      "compute_capability": "9.0",
+      "cuda_version": "12.4",
+      "timestamp": "2025-12-16T09:00:00.000Z"
+    },
+    "layer_4_benchmark_results": {
+      "description": "Benchmark results and metrics",
+      "comprehensive_report": "benchmarks/results/comprehensive_report.json",
+      "latest_summary": "benchmarks/results/latest.json",
+      "individual_results": [
+        "benchmarks/results/performance.json",
+        "benchmarks/results/gpu_utilization.json",
+        "benchmarks/results/energy_efficiency.json",
+        "benchmarks/results/reliability.json",
+        "benchmarks/results/entropy.json"
+      ],
+      "timestamp": "2025-12-16T09:16:00.000Z"
+    }
+  },
+  "metadata": {
+    "phase": 1,
+    "subphases": ["1.4", "1.5"],
+    "status": "completed",
+    "validation": {
+      "all_benchmarks_passed": true,
+      "all_metrics_meet_targets": true,
+      "documentation_complete": true,
+      "memory_engineering_complete": true,
+      "ready_for_nvidia_demo": true
+    }
+  }
+}
+

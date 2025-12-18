@@ -1,0 +1,18 @@
+# Prototypes — NVIDIA GPU (CUDA 12) + cuQuantum (Team3 acceleration)
+#
+# Install:
+#   python -m pip install -U pip
+#   python -m pip install -r prototypes/requirements.gpu-cu12-cuquantum.txt
+#
+
+-r requirements.gpu-cu12.txt
+
+# cuQuantum python bindings are distributed via NVIDIA NGC index:
+--extra-index-url https://pypi.ngc.nvidia.com
+
+# cuQuantum python bindings (NGC index)
+# Note: Version may vary. If 25.3.0.post0 unavailable, try latest or remove version pin.
+cuquantum-python>=25.0.0
+
+
+

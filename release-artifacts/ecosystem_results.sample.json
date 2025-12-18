@@ -1,0 +1,53 @@
+{
+  "ts": 1702569600.0,
+  "device": "cuda",
+  "torch": {
+    "version": "2.6.0+cu124",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA H100 PCIe"
+  },
+  "cuquantum": {
+    "available": true,
+    "has_cutensornet": true,
+    "version": "25.03.0.post0"
+  },
+  "team1": {
+    "ok": true,
+    "wall_s": 0.523,
+    "metrics": {
+      "compute_time_ms": 0.612,
+      "fidelity": 0.8583,
+      "active_qubits": 2097152
+    }
+  },
+  "team2": {
+    "ok": true,
+    "wall_s": 0.891,
+    "before": {
+      "total_loss_mw": "Infinity"
+    },
+    "after": {
+      "total_loss_mw": 10429.6875
+    },
+    "process_device": "cuda"
+  },
+  "team3": {
+    "ok": true,
+    "wall_s": 0.234,
+    "out_shape": [256, 32],
+    "out_mean": 0.4974,
+    "metrics": {
+      "time_sec": 7.622e-05,
+      "batch": 256.0,
+      "in_dim": 512.0,
+      "qubits": 8.0
+    }
+  }
+}
+
+
+
+
+
+
+

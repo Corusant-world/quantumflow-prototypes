@@ -1,0 +1,50 @@
+{
+  "timestamp": "2025-12-15 20:21:02",
+  "benchmarks": {
+    "cache_hit_rate": {
+      "num_keys": 50,
+      "num_repeats": 5,
+      "total_queries": 250,
+      "cache_hits": 250,
+      "cache_misses": 0,
+      "cache_hit_rate": 100.0,
+      "elapsed_time": 0.0002295970916748047,
+      "meets_target": true
+    },
+    "latency_reduction": {
+      "num_operations": 50,
+      "baseline_time": 1.3559362888336182,
+      "cached_time": 0.010741949081420898,
+      "reduction_factor": 126.22814338031296,
+      "meets_target": true,
+      "meets_ideal": true
+    },
+    "token_reduction": {
+      "num_queries": 500,
+      "baseline_tokens": 500,
+      "cache_hits": 495,
+      "token_reduction_percent": 99.0,
+      "meets_target": true
+    },
+    "two_level_system": {
+      "sram_size": 10,
+      "l2_size": 20,
+      "sram_capacity": 10,
+      "l2_capacity": 20,
+      "sram_hits": 5,
+      "l2_hits": 5,
+      "two_level_working": true
+    },
+    "gpu_utilization": {
+      "gpu_available": false,
+      "note": "GPU not available, using CPU fallback"
+    }
+  },
+  "summary": {
+    "all_passed": true,
+    "cache_hit_rate_ok": true,
+    "latency_reduction_ok": true,
+    "token_reduction_ok": true,
+    "two_level_system_ok": true
+  }
+}

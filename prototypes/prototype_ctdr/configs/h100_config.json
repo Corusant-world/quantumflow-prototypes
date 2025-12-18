@@ -1,0 +1,52 @@
+{
+  "architecture": {
+    "name": "NVIDIA H100 PCIe",
+    "compute_capability": "9.0",
+    "sm_version": "sm_90",
+    "cuda_version": "12.4"
+  },
+  "memory": {
+    "hbm3_bandwidth_tbps": 3.0,
+    "l2_cache_size_mb": 50,
+    "total_memory_gb": 80,
+    "memory_type": "HBM3"
+  },
+  "compute_units": {
+    "tensor_cores": {
+      "enabled": true,
+      "precision": ["FP8", "FP16", "BF16"],
+      "usage_target": "≥70%"
+    },
+    "dpx_units": {
+      "enabled": true,
+      "instructions": ["min", "max", "add"],
+      "data_type": "short2",
+      "throughput": "128 op/cycle/SM"
+    }
+  },
+  "optimization": {
+    "dpx_optimization": "min/max operations (compiler optimizes to DPX on sm_90)",
+    "tensor_core_usage": "FP16 for Boolean Einsum multiplication",
+    "hybrid_mode": "Tensor Cores (multiplication) + DPX (threshold)"
+  },
+  "benchmark_targets": {
+    "sm_utilization": {
+      "minimum": 70,
+      "target": 85,
+      "unit": "%"
+    },
+    "memory_bandwidth": {
+      "minimum": 50,
+      "target": 70,
+      "unit": "%"
+    },
+    "tensor_core_usage": {
+      "minimum": 50,
+      "target": 70,
+      "unit": "%"
+    }
+  },
+  "version": "1.0.0",
+  "timestamp": "2025-12-16T09:00:00.000Z"
+}
+

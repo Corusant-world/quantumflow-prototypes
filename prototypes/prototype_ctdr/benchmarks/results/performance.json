@@ -1,0 +1,121 @@
+{
+  "timestamp": "2025-12-15 21:47:53",
+  "benchmarks": {
+    "dpx_lcp_kernel": {
+      "kernel": "DPX_LCP_Kernel",
+      "results": [
+        {
+          "size": 100,
+          "cpu_time_seconds": 4.099973011761904e-06,
+          "cuda_time_seconds": 2.800021320581436e-06,
+          "speedup": 1.4642649259936804,
+          "lcp_result": 50,
+          "meets_target": false
+        },
+        {
+          "size": 1000,
+          "cpu_time_seconds": 1.3500044587999582e-05,
+          "cuda_time_seconds": 1.309998333454132e-05,
+          "speedup": 1.030539065832504,
+          "lcp_result": 501,
+          "meets_target": false
+        },
+        {
+          "size": 10000,
+          "cpu_time_seconds": 0.0001433999859727919,
+          "cuda_time_seconds": 0.0001338999718427658,
+          "speedup": 1.0709485894528914,
+          "lcp_result": 5000,
+          "meets_target": false
+        },
+        {
+          "size": 100000,
+          "cpu_time_seconds": 0.0023136999807320535,
+          "cuda_time_seconds": 0.0033588000223971903,
+          "speedup": 0.6888471970060176,
+          "lcp_result": 50000,
+          "meets_target": false
+        }
+      ],
+      "average_speedup": 1.0636499445712733,
+      "meets_target": false
+    },
+    "reversible_einsum_engine": {
+      "kernel": "Reversible_Einsum_Engine",
+      "results": [
+        {
+          "size": "2\u00d72",
+          "cpu_time_seconds": 0.0005412999889813364,
+          "cuda_time_seconds": 0.5743138000252657,
+          "speedup": 0.0009425160756323861,
+          "correctness_match": true,
+          "meets_target": false
+        },
+        {
+          "size": "4\u00d74",
+          "cpu_time_seconds": 0.00021059997379779816,
+          "cuda_time_seconds": 0.007231299998238683,
+          "speedup": 0.02912339051748561,
+          "correctness_match": true,
+          "meets_target": false
+        },
+        {
+          "size": "16\u00d716",
+          "cpu_time_seconds": 0.0012915999977849424,
+          "cuda_time_seconds": 0.008037799969315529,
+          "speedup": 0.16069073660897915,
+          "correctness_match": true,
+          "meets_target": false
+        },
+        {
+          "size": "128\u00d7128",
+          "cpu_time_seconds": 0.061801199975889176,
+          "cuda_time_seconds": 0.0867308999877423,
+          "speedup": 0.7125626505043018,
+          "correctness_match": true,
+          "meets_target": false
+        }
+      ],
+      "average_speedup": 0.22582982342659974,
+      "meets_target": false
+    },
+    "kv_cache_steering": {
+      "component": "KV_Cache_Steering_DPX",
+      "results": [
+        {
+          "sram_size": 10,
+          "l2_size": 100,
+          "num_operations": 100,
+          "baseline_time_seconds": 0.03202210000017658,
+          "cached_time_seconds": 0.00011729996185749769,
+          "latency_reduction": 272.9932686515171,
+          "cache_hit_rate": 100.0,
+          "meets_target": true
+        },
+        {
+          "sram_size": 100,
+          "l2_size": 1000,
+          "num_operations": 100,
+          "baseline_time_seconds": 0.037628899968694896,
+          "cached_time_seconds": 0.0001970999874174595,
+          "latency_reduction": 190.91274668118857,
+          "cache_hit_rate": 100.0,
+          "meets_target": true
+        },
+        {
+          "sram_size": 1000,
+          "l2_size": 10000,
+          "num_operations": 100,
+          "baseline_time_seconds": 0.04152679996332154,
+          "cached_time_seconds": 0.00011490000179037452,
+          "latency_reduction": 361.41687829634435,
+          "cache_hit_rate": 100.0,
+          "meets_target": true
+        }
+      ],
+      "average_latency_reduction": 275.10763120968335,
+      "meets_target": true
+    }
+  },
+  "all_meet_target": false
+}

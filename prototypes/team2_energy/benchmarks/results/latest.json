@@ -1,0 +1,80 @@
+{
+  "status": "success",
+  "device": "cuda",
+  "deps": {
+    "python": "3.10.12",
+    "platform": "Linux-6.8.0-87-generic-x86_64-with-glibc2.35",
+    "torch_version": "2.6.0+cu124",
+    "torch_cuda_version": "12.4",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA H100 PCIe",
+    "cuda_capability": [
+      9,
+      0
+    ],
+    "pynvml": {
+      "available": true,
+      "version": null
+    },
+    "cupy": {
+      "available": true,
+      "version": "13.6.0"
+    },
+    "cuquantum": {
+      "available": true,
+      "version": null
+    }
+  },
+  "nvidia_smi_before": {
+    "ok": true,
+    "raw": "NVIDIA H100 PCIe, 0, 0, 4, 81559, 47.59"
+  },
+  "benchmarks": {
+    "vram_reserve": {
+      "enabled": false
+    },
+    "energy_grid": {
+      "ok": true,
+      "msg": "ok",
+      "wall_time_s": 0.03023,
+      "before": {
+        "total_loss_mw": Infinity
+      },
+      "after": {
+        "total_loss_mw": 10429.6875
+      },
+      "delta_loss_mw": -Infinity
+    },
+    "tnp_thermo": {
+      "wall_time_s": 48.003223,
+      "iters": 2702,
+      "stats": {
+        "total_joules": 3.108843935187072e-14,
+        "landauer_min": 1.805414665039018e-14,
+        "dissipation": 1.303429270148054e-14,
+        "efficiency": 96.89115606481293
+      }
+    },
+    "gpu_soak_matmul": {
+      "duration_s_target": 72,
+      "matrix_n": 16384,
+      "dtype": "bfloat16",
+      "iters": 4208,
+      "elapsed_ms": 82059.875,
+      "tflops_est": 451.0603926395362
+    }
+  },
+  "bench_seconds": 120,
+  "bench_reserve_gb": 0,
+  "nvml": {
+    "samples": 261,
+    "gpu_util_avg": 95.4367816091954,
+    "gpu_util_max": 100,
+    "mem_used_mb_max": 3735,
+    "nvml_ok": true
+  },
+  "nvidia_smi_after": {
+    "ok": true,
+    "raw": "NVIDIA H100 PCIe, 100, 36, 3172, 81559, 349.42"
+  }
+}

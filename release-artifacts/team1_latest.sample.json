@@ -1,0 +1,92 @@
+{
+  "status": "success",
+  "device": "NVIDIA H100 PCIe",
+  "deps": {
+    "python": "3.10.12",
+    "platform": "Linux-6.8.0-87-generic-x86_64-with-glibc2.35",
+    "torch_version": "2.6.0+cu124",
+    "torch_cuda_version": "12.4",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA H100 PCIe",
+    "cuda_capability": [9, 0],
+    "cupy": {
+      "available": true,
+      "version": "13.6.0"
+    },
+    "cuquantum": {
+      "available": true,
+      "version": null
+    }
+  },
+  "nvidia_smi_before": {
+    "ok": true,
+    "raw": "NVIDIA H100 PCIe, 0, 0, 4, 81559, 49.23"
+  },
+  "benchmarks": {
+    "vram_reserve": {
+      "enabled": false
+    },
+    "lattice=4096_batch=512_steps=10_fp16=True": {
+      "wall_time_s": 12.000705,
+      "tflops_est": 180.4209773949344,
+      "iters": 12603,
+      "metrics": {
+        "compute_time_ms": 0.6119679808616638,
+        "fidelity": 0.8583182692527771,
+        "active_qubits": 2097152,
+        "details": {
+          "device": "cuda",
+          "dtype": "float16",
+          "lattice_size": 4096,
+          "steps": 10,
+          "coherence_proxy": 0.1986083984375
+        }
+      }
+    },
+    "lattice=8192_batch=256_steps=8_fp16=True": {
+      "wall_time_s": 12.000835,
+      "tflops_est": 139.9718335063269,
+      "iters": 6111,
+      "metrics": {
+        "compute_time_ms": 1.0059839487075806,
+        "fidelity": 0.8559565544128418,
+        "active_qubits": 2097152,
+        "details": {
+          "device": "cuda",
+          "dtype": "float16",
+          "lattice_size": 8192,
+          "steps": 8,
+          "coherence_proxy": 0.2178955078125
+        }
+      }
+    },
+    "gpu_soak_matmul": {
+      "duration_s_target": 36,
+      "matrix_n": 16384,
+      "dtype": "bfloat16",
+      "iters": 2369,
+      "elapsed_ms": 45969.6484375,
+      "tflops_est": 453.29788410154737
+    }
+  },
+  "bench_seconds": 60,
+  "bench_reserve_gb": 0,
+  "nvml": {
+    "samples": 141,
+    "gpu_util_avg": 95.19148936170212,
+    "gpu_util_max": 100,
+    "mem_used_mb_max": 3921,
+    "nvml_ok": true
+  },
+  "nvidia_smi_after": {
+    "ok": true,
+    "raw": "NVIDIA H100 PCIe, 82, 30, 3358, 81559, 307.88"
+  }
+}
+
+
+
+
+
+
+

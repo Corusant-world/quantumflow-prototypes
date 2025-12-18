@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="120" viewBox="0 0 520 120" role="img" aria-label="Tech Eldorado logo placeholder">
+  <rect x="0" y="0" width="520" height="120" rx="18" fill="#0b1220"/>
+  <circle cx="68" cy="60" r="28" fill="#76b900"/>
+  <text x="120" y="70" font-family="system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial" font-size="34" fill="#e5e7eb">
+    Tech Eldorado
+  </text>
+  <text x="122" y="94" font-family="system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial" font-size="14" fill="#94a3b8">
+    NVIDIA-facing prototypes (placeholder logo)
+  </text>
+</svg>
+
+
+
