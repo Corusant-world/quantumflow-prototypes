@@ -137,7 +137,6 @@ This repository represents **the beginning of a quantum-accelerated tools ecosys
 - **Multiple prototypes**: Three working prototypes prove this isn't a one-off project — it's an ecosystem
 - **Active development**: See `CHANGELOG.md` for regular updates. This is a living ecosystem, not a static repository
 - **Contributing welcome**: `CONTRIBUTING.md` shows this is a community-driven project with a long-term vision
-- **Roadmap ahead**: Additional prototypes, production tooling, multi-GPU orchestration — this is the foundation, not the ceiling
 
 **What's next:**
 - Additional prototypes demonstrating other NVIDIA technologies (cuDNN, cuBLAS, cuSPARSE integrations)
